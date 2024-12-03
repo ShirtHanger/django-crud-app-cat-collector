@@ -31,12 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    # add main_app here
+    'main_app',
+    'django.contrib.admin', # The admin interface, ready to use.
+    'django.contrib.auth', # An authentication system.
+    'django.contrib.contenttypes', # Framework for content types.
+    'django.contrib.sessions', # A session framework.
+    'django.contrib.messages', # A messaging framework.
+    'django.contrib.staticfiles', # A framework to manage static files.
 ]
 
 MIDDLEWARE = [

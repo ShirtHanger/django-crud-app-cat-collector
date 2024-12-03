@@ -1,0 +1,6 @@
+We can create HTML files in main_app/templates, for the purpose of sorting each individual page
+for your Django App
+
+
+Template inheritance (Partials)
+

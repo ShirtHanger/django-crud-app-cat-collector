@@ -1,0 +1,106 @@
+CREATE the app with the following
+
+---
+python3 manage.py startapp main_app
+---
+
+Then add this to the INSTALLED_APPS list in catcollector/settings.py
+
+INSTALLED_APPS = [
+    # add main_app here
+    'main_app',
+    'django.contrib.admin', # The admin interface, ready to use.
+    'django.contrib.auth', # An authentication system.
+    'django.contrib.contenttypes', # Framework for content types.
+    'django.contrib.sessions', # A session framework.
+    'django.contrib.messages', # A messaging framework.
+    'django.contrib.staticfiles', # A framework to manage static files.
+]
+
+Verify everything has been connected right with this command
+
+---
+python3 manage.py runserver
+---
+
+http://127.0.0.1:8000/
+
+Now stop the server and get rid of the unapplied migration message. 
+To test your server
+
+---
+python3 manage.py migrate
+---
+
+1. Create a new urls.py in your main_app directory:
+
+---
+touch main_app/urls.py
+---
+
+
+2. Open the catcollector/urls.py file and modify it to include the main_app’s URLs.
+
+===
+# catcollector/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+===
+
+Then, add a new line in the urlpatterns list to include main_app’s URLs:
+
+===
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('main_app.urls')), # Mounts main_app's routes at the root URL
+]
+===
+
+3. Now, let’s define the initial setup inside main_app/urls.py:
+
+===
+from django.urls import path
+from . import views # Import views to connect routes to view functions
+
+urlpatterns = [
+    path('', views.home, name='home'),
+]
+===
+
+===
+===
+
+===
+===
+
+===
+===
+
+===
+===
+
+===
+===
+
+===
+===
+
+===
+===
+
+===
+===
+
+===
+===
+
+
+===
+===
+
+===
+===
+
+===
+===

@@ -1,0 +1,3 @@
+STATIC files
+
+Link your CSS, Images, and JS into your Django!
