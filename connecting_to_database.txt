@@ -1,32 +1,32 @@
 First install psycopg2-binary, allows Django to communicate with PostgreSQL
 
----
+------------------
 pipenv install psycopg2-binary
----
+------------------
 
 Now create your catcollecter database
 
----
+------------------
 createdb catcollector
----
+------------------
 
 activate psql
 
----
+------------------
 psql
----
+------------------
 
 Check your list
 
----
+------------------
 \l
----
+------------------
 
 exit SQL shell with this
 
----
+------------------
 \q
----
+------------------
 
 
 Configure Django to run with PostgreSQL.
@@ -47,6 +47,46 @@ Now create migration files. That way, your database schema remains in sync with 
 essential as the needs of your application evolve.
 Handle with care, can also lead to data loss
 
----
+------------------
 python3 manage.py makemigrations
----
+------------------
+
+Should create main_app/migrations/0001_initial.py
+
+Run the migration to sync the database and the models
+
+------------------
+python3 manage.py migrate
+------------------
+
+To see what was made in your database, re-open psql and check cat collector again
+
+------------------
+psql catcollector
+------------------
+------------------
+\dt
+------------------
+
+You should see something like this
+
+===================================================================
+catcollector=# \dt
+                     List of relations
+ Schema |            Name            | Type  |    Owner
+--------+----------------------------+-------+-------------
+ public | auth_group                 | table | user
+ public | auth_group_permissions     | table | user
+ public | auth_permission            | table | user
+ public | auth_user                  | table | user
+ public | auth_user_groups           | table | user
+ public | auth_user_user_permissions | table | user
+ public | django_admin_log           | table | user
+ public | django_content_type        | table | user
+ public | django_migrations          | table | user
+ public | django_session             | table | user
+ public | main_app_cat               | table | user    <- Our new table!
+(11 rows)
+
+catcollector=#
+===================================================================

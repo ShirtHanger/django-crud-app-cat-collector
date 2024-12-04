@@ -1,8 +1,8 @@
 CREATE the app with the following
 
----
+------------------
 python3 manage.py startapp main_app
----
+------------------
 
 Then add this to the INSTALLED_APPS list in catcollector/settings.py
 
@@ -19,24 +19,24 @@ INSTALLED_APPS = [
 
 Verify everything has been connected right with this command
 
----
+------------------
 python3 manage.py runserver
----
+------------------
 
 http://127.0.0.1:8000/
 
 Now stop the server and get rid of the unapplied migration message. 
 To test your server
 
----
+------------------
 python3 manage.py migrate
----
+------------------
 
 1. Create a new urls.py in your main_app directory:
 
----
+------------------
 touch main_app/urls.py
----
+------------------
 
 
 2. Open the catcollector/urls.py file and modify it to include the main_app’s URLs.

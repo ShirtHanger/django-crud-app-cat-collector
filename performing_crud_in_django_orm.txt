@@ -1,0 +1,137 @@
+ORM = Object Relational Mapper
+
+We can use python code to perform CRUD in the SQL database,
+instead of using SQL in terminal directly.
+
+
+PERFORMING CRUD
+
+
+Load the Django shell in terminal
+
+------------------
+python3 manage.py shell
+------------------
+
+>>>
+If this showed up, you're good.
+Code here is very similar to python code
+
+Import the cat models
+
+------------------
+from main_app.models import Cat
+------------------
+
+Get all the cats in your database 
+------------------
+Cat.objects.all()
+------------------
+
+================== CREATE ==================
+
+# Let's create a cat, then save it, then check its id
+
+# First save the cat into a variable for maniupulation
+
+c = Cat(name='Biscuit', breed='Sphinx', description='Cuddle monster. Hairless.', age=2)
+
+# Save it
+c.save()
+
+# This will return its ID
+c.id
+
+Make another!
+
+new_cat = Cat(name='Jonsey', breed='Persian', description='He stares into your sould.', age=7)
+
+# Save it
+new_cat.save()
+
+# This will return its ID
+new_cat.id
+
+One more!
+
+new_cat = Cat(name='Grape', breed='Siamese', description='She is fiesty.', age=4)
+
+================== READ ==================
+
+# Check ALL cats
+
+Cat.objects.all()
+
+Get a specific cat by its ID, possibly name too more on this later
+c = Cat.objects.get(id=2)
+
+
+================== UPDATE ==================
+
+Jonsey's description is messed up
+
+Get a cat first of all.
+
+c = Cat.objects.first()
+
+Confirm you got the right cat
+
+c
+
+Update and save
+
+c.name = 'Rubber Biscuit'
+c.save()
+
+
+
+
+================== DELETE ==================
+
+Test it with a new cat
+c = Cat(name='Pebbles', breed='alley cat', description='smells like old socks', age=7)
+c.save()
+
+Check all of your cats
+
+Cat.objects.all()
+
+
+Save the cat you want to delete into a variable, but it is already. Just delete like this
+
+c.delete()
+
+
+================== READ ON ==================
+
+use the get() method to collect a specific cat
+
+Cat.objects.get(id=1)
+
+Due to SQL not reassigning IDs, you may obviously get errors. We must handle this properly
+
+#  Handle the case where the object does not exist
+---
+try:
+    cat = Cat.objects.get(id=4)
+except Cat.DoesNotExist:
+    print("This cat does not exist!")
+---
+
+You can specify multiple conditions, like name, description, etc.
+
+By name
+Cat.objects.filter(name='Rubber Biscuit')
+By name SEARCH
+Cat.objects.filter(name__contains='Bis')
+Age is less than 3
+Cat.objects.filter(age__lte=3)
+
+
+
+================== ORDERING/SORTING QUERIES ==================
+
+Ascending order
+Cat.objects.order_by('name')
+Descending order
+Cat.objects.order_by('-age')
