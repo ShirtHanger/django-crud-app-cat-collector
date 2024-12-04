@@ -1,0 +1,52 @@
+First install psycopg2-binary, allows Django to communicate with PostgreSQL
+
+---
+pipenv install psycopg2-binary
+---
+
+Now create your catcollecter database
+
+---
+createdb catcollector
+---
+
+activate psql
+
+---
+psql
+---
+
+Check your list
+
+---
+\l
+---
+
+exit SQL shell with this
+
+---
+\q
+---
+
+
+Configure Django to run with PostgreSQL.
+
+1. Go to catcollector/settings.py
+2. Replace DATABASES dictionary with this
+
+===
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'catcollector',
+    }
+}
+===
+
+Now create migration files. That way, your database schema remains in sync with your Django models 
+essential as the needs of your application evolve.
+Handle with care, can also lead to data loss
+
+---
+python3 manage.py makemigrations
+---
