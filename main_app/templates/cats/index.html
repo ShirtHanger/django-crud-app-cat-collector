@@ -14,7 +14,7 @@
 </section>
 
 <section class="card-container">
-  {% for cat in cats %}
+  {% for cat in cats %} {% comment %} For loop, maps all cat data {% endcomment %}
     <div class="card">
       <div class="card-content">
         <div class="card-img-container">
@@ -23,12 +23,15 @@
             alt="A skater boy cat"
           />
         </div>
-        <h2 class="card-title">{{ cat.name }}</h2>
+        {% comment %} 
+        Double curly braces means page is rendering PYTHON syntax, like react 
+        {% endcomment %}
+        <h2 class="card-title">{{ cat.name }}</h2> {% comment %} Conditional rendering {% endcomment %}
         {% if cat.age > 0 %}
         <p>A {{ cat.age }} year old {{ cat.breed }}</p>
         {% else %}
         <p>A {{ cat.breed }} kitten.</p>
-        {% endif %}
+        {% endif %} {% comment %} Stops If/Else blocks  {% endcomment %}
         <p><small>{{ cat.description }}</small></p>
       </div>
     </div>
