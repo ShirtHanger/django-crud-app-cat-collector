@@ -104,7 +104,7 @@ c.delete()
 
 ================== READ ON ==================
 
-use the get() method to collect a specific cat
+use the .get() method to collect a specific cat
 
 Cat.objects.get(id=1)
 
@@ -131,7 +131,18 @@ Cat.objects.filter(age__lte=3)
 
 ================== ORDERING/SORTING QUERIES ==================
 
-Ascending order
+use .order_by()
+
+# Sort cats in name by Ascending order (Alphabetical)
 Cat.objects.order_by('name')
-Descending order
+
+# Order by age in descending order (Oldest to youngest)
 Cat.objects.order_by('-age')
+
+# Retrieves the oldest cat (Via list index)
+oldest_cat = Cat.objects.order_by('-age')[0]
+
+
+Remember to quit out of shell when done!
+
+quit()
