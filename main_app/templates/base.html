@@ -1,4 +1,4 @@
-{% load static %} {% comment %} Import CSS and JS from static folder {% endcomment %}
+{% load static %} <!-- Import CSS and JS from static folder -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,9 +7,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/splash.svg' %}" /> {% comment %} Insert Image {% endcomment %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/splash.svg' %}" /> <!-- Insert Image -->
     <title>Cat Collector</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" /> {% comment %} Insert CSS {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" /> <!-- Insert CSS -->
     {% block head %} 
     {% endblock %}
   </head>
@@ -24,11 +24,12 @@
         </a>
       </div>
 
-      <nav> {% comment %} Links {% endcomment %}
-        {% comment %} Hard coded URLs (<a href="/cats">All Cats</a>) are not reccomended {% endcomment %}
+      <nav> <!-- Links -->
+        <!-- Hard coded URLs (<a href="/cats">All Cats</a>) are not reccomended -->
         <ul>
           <li><a href="{% url 'cat-index' %}">All Cats</a></li>
           <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'cat-create' %}">Add a Cat</a></li>
         </ul>
       </nav>
 
@@ -36,7 +37,7 @@
 
     <main>
      {% block content %} 
-     {% comment %} This is where a child html page CAN load {% endcomment %}
+     <!-- This is where a child html page CAN load -->
      {% endblock %}
      </main>
   </body>

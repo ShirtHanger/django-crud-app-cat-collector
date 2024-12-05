@@ -1,4 +1,8 @@
 from django.shortcuts import render
+
+# Import Class Based View CRUD stuff
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 # Import Cat Model
 from .models import Cat
 
@@ -29,3 +33,21 @@ def cat_index(request):
 def cat_detail(request, cat_id): # Grabs a specific cat by Django ID
     cat = Cat.objects.get(id=cat_id)
     return render(request, 'cats/detail.html', {'cat': cat})
+
+
+
+""" THese will automatically handle CRUD form logic! """
+class CatCreate(CreateView):
+    model = Cat
+    fields = '__all__' # Shows form of all properties
+    # This works too but above is more efficient.
+    # fields = ['name', 'breed', 'description', 'age']
+    
+class CatUpdate(UpdateView):
+    model = Cat
+    # Disallow renaming of a cat by excluding the name field!
+    fields = ['breed', 'description', 'age']
+
+class CatDelete(DeleteView):
+    model = Cat
+    success_url = '/cats/'

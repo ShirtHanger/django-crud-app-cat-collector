@@ -1,2 +1,15 @@
 https://docs.djangoproject.com/en/5.0/topics/class-based-views/intro/#introduction-to-class-based-views
 
+Class based views allow you to better organize views.py by passing in models and re-use code
+
+Types of class-based views
+
+ListView - Index page of all instances of a model
+DetailView - used to implement the “detail” page for an instance of a Model
+CreateView - Create an instance of a Model
+DeleteView - Delete an instance of a Model
+UpdateView - Update an instance of a Model
+
+CLASS BASED VIEWS IMPLEMENT CRUD FORMS AUTOMATICALLY!!!
+
+EASY!

@@ -7,6 +7,10 @@ urlpatterns = [ # Routes will be added here
     # route for cats index
     path('cats/', views.cat_index, name='cat-index'),
     path('cats/<int:cat_id>/', views.cat_detail, name='cat-detail'), # Cat details, collects by ID.
+    # CRUD form logic is handled automatically by Django
+    path('cats/create/', views.CatCreate.as_view(), name='cat-create'), # Create a cat on user end, 
+    path('cats/<int:pk>/update/', views.CatUpdate.as_view(), name='cat-update'), # Update
+    path('cats/<int:pk>/delete/', views.CatDelete.as_view(), name='cat-delete'), # Delete
 ]
 
 """ 

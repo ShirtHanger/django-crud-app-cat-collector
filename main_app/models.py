@@ -1,4 +1,5 @@
 from django.db import models # Imports models class so you can create API classes
+from django.urls import reverse 
 
 # Create your models here.
 
@@ -29,3 +30,8 @@ class Cat(models.Model): #References model class, new API schema!
     # Override class object nonsense, just return the cat's name
     def __str__(self):
         return self.name
+    
+    # Method gets the URL for a particular cat instance
+    def get_absolute_url(self):
+        # Use the 'reverse' function to dynamically find the URL for viewing this cat's details
+        return reverse('cat-detail', kwargs={'cat_id': self.id})
