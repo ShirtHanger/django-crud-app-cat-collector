@@ -1,0 +1,44 @@
+Hard code your SQL list into main_app/views.py
+
+----------
+from django.shortcuts import render
+from .models import Cat
+
+def cat_index(request):
+    cats = Cat.objects.all()  # look familiar?
+    return render(request, 'cats/index.html', {'cats': cats})
+-----------
+
+=============== ADMIN APP =======================
+
+Make yourself a superuser in the terminal to check data
+
+---
+python3 manage.py createsuperuser
+---
+
+You must enter a username and password.
+
+If you forget password, use this command in terminal to change it
+
+---
+python3 manage.py changepassword <user_name>
+---
+
+
+Go to main_app/admin.py and import cats
+
+---
+from django.contrib import admin
+from .models import Cat
+
+admin.site.register(Cat)
+---
+
+http://127.0.0.1:8000/admin/
+
+You can now crud data via the admin console! Just incase you need to make more data!
+Easy and simple!
+Heck yeah!
+
+Now do this with the other models

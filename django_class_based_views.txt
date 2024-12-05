@@ -1,0 +1,2 @@
+https://docs.djangoproject.com/en/5.0/topics/class-based-views/intro/#introduction-to-class-based-views
+
