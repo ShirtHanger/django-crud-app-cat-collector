@@ -1,0 +1,56 @@
+Developing the feeding model
+
+Cats can have many feedings!
+
+Add a feeding object into models.py
+
+===================
+class Feeding(models.Model):
+    date = models.DateField()
+    meal = models.CharField( # BLD (Breakfast, Lunch, Dinner)
+        max_length=1, 
+        # add the 'choices' field option from the MEALS tuple
+        choices=MEALS,
+        # set the default value for meal to be  Breakfast (B) by accessing tuple index
+        default=MEALS[0][0]
+    )
+    
+    # Add foreign key
+    # Create a cat_id column for each feeding in the database
+    cat = models.ForeignKey(Cat, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        # Nice method for obtaining the friendly value of a Field.choice
+        return f"{self.get_meal_display()} on {self.date}"
+===================
+
+We must define the Meals tuple above ALL classes first
+===================
+MEALS = (
+    ('B', 'Breakfast'),
+    ('L', 'Lunch'),
+    ('D', 'Dinner')
+)
+===================
+
+Now run migrations to update the database's models. 
+This will check models.py to see changes to database, then implements them
+
+===================
+python3 manage.py makemigrations
+
+python3 manage.py migrate
+===================
+
+
+Remember to add it to main_app/admin.py
+
+===================
+from django.contrib import admin
+from .models import Cat, Feeding
+
+# Register your models here for Admin CRUD
+
+admin.site.register(Cat)
+admin.site.register(Feeding)
+===================

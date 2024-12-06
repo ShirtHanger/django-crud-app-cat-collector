@@ -21,6 +21,24 @@ Form Rendering: The field type also determines the default HTML widget used in f
 Much easier form creation than react!
 """
 
+
+""" 
+
+Limited choices for meals
+
+fields.choices
+
+https://docs.djangoproject.com/en/5.0/ref/models/fields/#choices
+"""
+
+# A tuple of 2-tuples added above our models
+MEALS = (
+    ('B', 'Breakfast'),
+    ('L', 'Lunch'),
+    ('D', 'Dinner')
+)
+
+
 class Cat(models.Model): #References model class, new API schema!
     name = models.CharField(max_length=100)
     breed = models.CharField(max_length=100)
@@ -35,3 +53,30 @@ class Cat(models.Model): #References model class, new API schema!
     def get_absolute_url(self):
         # Use the 'reverse' function to dynamically find the URL for viewing this cat's details
         return reverse('cat-detail', kwargs={'cat_id': self.id})
+    
+# Cats have many feedings
+class Feeding(models.Model):
+    # The first optional positional argument overrides the label
+    date = models.DateField('Feeding date')
+    meal = models.CharField( # BLD (Breakfast, Lunch, Dinner)
+        max_length=1, 
+        # add the 'choices' field option from the MEALS tuple
+        choices=MEALS,
+        # set the default value for meal to be  Breakfast (B) by accessing tuple index
+        default=MEALS[0][0]
+    )
+    
+    # Add foreign key for the cat this feeding belongs to
+    # Create a cat_id column for each feeding in the database
+    
+    cat = models.ForeignKey(Cat, on_delete=models.CASCADE) 
+    # This function will prevent the database from rolling into itself if you delete a cat that has feedings, 
+    # it delets the feedings too
+    
+    def __str__(self):
+        # Nice method for obtaining the friendly value of a Field.choice
+        return f"{self.get_meal_display()} on {self.date}"
+    
+    # Define default order of feedings
+    class Meta:
+        ordering = ['-date']  # Newest feedings appear first
