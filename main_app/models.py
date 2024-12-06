@@ -1,8 +1,11 @@
 from django.db import models # Imports models class so you can create API classes
 from django.urls import reverse 
+from datetime import date
 
 # Create your models here.
 
+# Import the default User model
+from django.contrib.auth.models import User
 
 """ 
 #More model field types
@@ -44,6 +47,8 @@ class Cat(models.Model): #References model class, new API schema!
     breed = models.CharField(max_length=100)
     description = models.TextField(max_length=250) # textField is better for longer text fields
     age = models.IntegerField()
+    # Add the foreign key linking to a user instance
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     # Override class object nonsense, just return the cat's name
     def __str__(self):
@@ -71,7 +76,7 @@ class Feeding(models.Model):
     
     cat = models.ForeignKey(Cat, on_delete=models.CASCADE) 
     # This function will prevent the database from rolling into itself if you delete a cat that has feedings, 
-    # it delets the feedings too
+    # it deletes the feedings too
     
     def __str__(self):
         # Nice method for obtaining the friendly value of a Field.choice

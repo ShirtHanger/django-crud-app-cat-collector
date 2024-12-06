@@ -2,7 +2,7 @@ from django.urls import path
 from . import views # Import views to connect routes to view functions
 
 urlpatterns = [ # Routes will be added here
-    path('', views.home, name='home'),
+    path('', views.Home.as_view(), name='home'),
     path('about/', views.about, name='about'),
     # route for cats index
     path('cats/', views.cat_index, name='cat-index'),
@@ -18,6 +18,10 @@ urlpatterns = [ # Routes will be added here
     views.add_feeding, 
     name='add-feeding'
     ),
+    
+    # Sign up route
+    path('accounts/signup/', views.signup, name='signup'),
+
 ]
 
 """ 

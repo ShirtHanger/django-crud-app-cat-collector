@@ -25,13 +25,29 @@
       </div>
 
       <nav> <!-- Links -->
-        <!-- Hard coded URLs (<a href="/cats">All Cats</a>) are not reccomended -->
-        <ul>
-          <li><a href="{% url 'cat-index' %}">All Cats</a></li>
-          <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="{% url 'cat-create' %}">Add a Cat</a></li>
+        <ul> <!-- Hard coded URLs (<a href="/cats">All Cats</a>) are not reccomended -->
+          {% if user.is_authenticated %} <!-- Conditional based on if user is logged in or not -->
+            <li><a href="{% url 'cat-index' %}">All Cats</a></li>
+            
+            <li><a href="{% url 'cat-create' %}">Add a Cat</a></li>
+            
+            <li><a href="{% url 'about' %}">About</a></li>
+            
+            <!-- Logout -->
+            <li>
+              <form id="logout-form" method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log out</button>
+              </form>
+            </li>
+          {% else %}
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'home' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+          {% endif %}
         </ul>
       </nav>
+      
 
     </header>
 

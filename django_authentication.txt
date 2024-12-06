@@ -1,0 +1,107 @@
+Django automatically creates an authentication app, and server-side sessions
+
+Default Django User Model:
+
+User:
+    username
+    password
+    email
+    first_name
+    last_name
+
+Ideally, authentication should be set up early in the development process to simplify code management. 
+However, for educational purposes, we’re integrating it at the end of our project 
+to highlight the changes it requires.
+
+
+Import Default user model, then edit cats model in models.py
+
+====================
+from django.db import models 
+from django.urls import reverse 
+from datetime import date
+
+# Import the default User model
+from django.contrib.auth.models import User
+
+...
+
+class Cat(models.Model):
+    # Other Cat class items above
+    # Add the foreign key linking to a user instance
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+====================
+
+
+Now lets migrate!
+
+----------------
+python3 manage.py makemigrations
+----------------
+
+Wow, the terminal didn't like that
+
+------------------
+You are trying to add a non-nullable field 'user' to cat without a default;
+we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option:
+-----------------------------------
+
+Choose option 1, then as a default give it the ID of the superuser (1).
+
+---------------------------
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available,
+so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>>
+-------------------------------
+
+Enter the ID of superuser (1)
+
+Now all current cats are owned by admin(Superuser). All new cats must now belong to a user who made an account
+
+Now lets migrate for real
+
+
+----------------------------
+python3 manage.py migrate
+----------------------------
+
+Now put this in catcollector/urls.py, NOT main_app/urls.py
+
+=======================
+=======================
+
+Replace the home view in main_app/views.py and main_app/urls.py with these respectively
+
+
+==============================
+urlpatterns = [ # Routes will be added here
+    path('', views.Home.as_view(), name='home'),
+]
+==============================
+
+======================
+class Home(LoginView):
+    # Returns main_app/templates/home.html
+    template_name = 'home.html'
+===========================
+
+Now when you add login into main page, go to settings.py. Put this in to create a DEFAULT route for successful login, logout, etc
+
+==========================
+STATIC_URL = 'static/'
+
+# Add this variable to specify where decorators and mixins should redirect to
+LOGIN_URL = 'home'
+
+# Add this variable to specify where successful logins should redirect to
+LOGIN_REDIRECT_URL = 'cat-index'
+
+# Add this variable to specify where logging out redirects to
+LOGOUT_REDIRECT_URL = 'home'
+=======================
