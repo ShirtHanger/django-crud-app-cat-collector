@@ -27,9 +27,12 @@
       <nav> <!-- Links -->
         <ul> <!-- Hard coded URLs (<a href="/cats">All Cats</a>) are not reccomended -->
           {% if user.is_authenticated %} <!-- Conditional based on if user is logged in or not -->
+          
             <li><a href="{% url 'cat-index' %}">All Cats</a></li>
-            
             <li><a href="{% url 'cat-create' %}">Add a Cat</a></li>
+
+            <li><a href="{% url 'toy-index' %}">All Toys</a></li>
+            <li><a href="{% url 'toy-create' %}">Add a Toy</a></li>
             
             <li><a href="{% url 'about' %}">About</a></li>
             

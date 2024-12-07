@@ -1,0 +1,18 @@
+Many-To-Many relationships in SQL require a "Join Table"
+
+The join table will bridge together foreign keys and their primary key references
+
+This allows you to associate and dissasociate cats and toys from eachother, without deleting a cat or toy to do so
+
+
+In Django, most of the heavy lifting in many-to-many relationships are handled by Django itself!
+
+Forms and templates aside, all you need to do to implement a many-to-many relationship using Django is:
+
+1. Add a ManyToManyField on one of the Models
+2. Create the migration and migrate it to update the database
+
+Django willcreate a “hidden” join table for you!
+
+python3 manage.py makemigrations
+python3 manage.py migrate

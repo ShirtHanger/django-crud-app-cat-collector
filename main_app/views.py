@@ -3,10 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 # Import Class Based View CRUD stuff
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+# Default view templates
+from django.views.generic import ListView, DetailView
 
 # For login-signup stuff
-from django.views.generic import ListView, DetailView
-# Add the two imports below
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # For login protected routes
@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Import Cat Model
-from .models import Cat
+from .models import Cat, Toy
 # Import form for new feedings for cat
 from .forms import FeedingForm
 
@@ -34,6 +34,8 @@ class Home(LoginView):
 def about(request):
     # Returns html file from main_app/templates/about.html
     return render(request, 'about.html')
+
+""" CATS PAGES """
 
 # INDEX PAGE
 """ 
@@ -56,13 +58,15 @@ def cat_index(request): # Shows just the logged user's cats
 def cat_detail(request, cat_id): # Grabs a specific cat by Django ID
     cat = Cat.objects.get(id=cat_id)
     
+    toys_cat_doesnt_have = Toy.objects.exclude(id__in = cat.toys.all().values_list('id')) # Fetch toys this cat DOESNT have
+    
     # instantiate FeedingForm to be rendered in the template
     feeding_form = FeedingForm()
     
-    # Return both singular cat and all feedings associated with singular cat
     return render(request, 'cats/detail.html', {
-        # include the cat and feeding_form in the context
-        'cat': cat, 'feeding_form': feeding_form
+        'cat': cat, # Get specific cat
+        'feeding_form': feeding_form, # Get all feedings associated with specific cat
+        'toys': toys_cat_doesnt_have # Get all toys that DONT belong to this cat
     })
     
 # ADD A FEEDING METHOD
@@ -108,14 +112,12 @@ def signup(request):
     # In Javascript
 
 
-
-
 """ These will automatically handle CRUD form logic! """
 class CatCreate(LoginRequiredMixin, CreateView):
     model = Cat
     # fields = '__all__' # Shows form of all properties, including owned user
     # This works too but above is more efficient...
-    # But since there are users, we need to hide the "User" property
+    # But since there are users and toys, we need to hide the "User" and "Toys " properties
     fields = ['name', 'breed', 'description', 'age']
     
     # This inherited method is called when a
@@ -134,3 +136,40 @@ class CatUpdate(LoginRequiredMixin, UpdateView):
 class CatDelete(LoginRequiredMixin, DeleteView):
     model = Cat
     success_url = '/cats/'
+    
+""" Toy list styles """
+    
+class ToyList(LoginRequiredMixin, ListView):
+    model = Toy
+
+class ToyDetail(LoginRequiredMixin, DetailView):
+    model = Toy
+    
+# Toy CRUD
+
+class ToyCreate(LoginRequiredMixin, CreateView):
+    model = Toy
+    fields = '__all__'
+
+class ToyUpdate(LoginRequiredMixin, UpdateView):
+    model = Toy
+    fields = ['name', 'color']
+
+class ToyDelete(LoginRequiredMixin, DeleteView):
+    model = Toy
+    success_url = '/toys/'
+
+# Cat-Toy association and removal
+@login_required
+def associate_toy(request, cat_id, toy_id):
+    # Note that you can pass a toy's id instead of the whole object
+    Cat.objects.get(id=cat_id).toys.add(toy_id)
+    return redirect('cat-detail', cat_id=cat_id)
+
+@login_required
+def remove_toy(request, cat_id, toy_id):
+    # Look up the cat
+    # Look up the toy
+    # Remove the toy from the cat
+    Cat.objects.get(id=cat_id).toys.remove(toy_id)
+    return redirect('cat-detail', cat_id=cat_id)

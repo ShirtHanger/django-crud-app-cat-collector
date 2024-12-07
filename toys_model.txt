@@ -1,0 +1,8 @@
+Create a third model (Toys), then link it to each cat As a Many-To-Many relationship!
+
+Yeah!
+
+Remember to migrate
+
+python3 manage.py makemigrations
+python3 manage.py migrate

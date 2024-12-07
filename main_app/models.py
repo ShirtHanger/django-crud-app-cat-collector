@@ -34,19 +34,35 @@ fields.choices
 https://docs.djangoproject.com/en/5.0/ref/models/fields/#choices
 """
 
-# A tuple of 2-tuples added above our models
+# A tuple of 2-tuples added above our models for cats
 MEALS = (
     ('B', 'Breakfast'),
     ('L', 'Lunch'),
     ('D', 'Dinner')
 )
 
+# Toy model, many-to-many with cats. Defined above cat so code will work
+class Toy(models.Model):
+    name = models.CharField(max_length=50)
+    color = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.name
+
+    # Method gets the URL for a particular toy instance
+    def get_absolute_url(self):
+        return reverse('toy-detail', kwargs={'pk': self.id})
+
+# Cat model 
 class Cat(models.Model): #References model class, new API schema!
     name = models.CharField(max_length=100)
     breed = models.CharField(max_length=100)
     description = models.TextField(max_length=250) # textField is better for longer text fields
     age = models.IntegerField()
+        # Add the M:M relationship. 
+        # Define within cats as we are more interested in a cat's toys than whatever cat a toy belongs to
+    toys = models.ManyToManyField(Toy) # Must define toy above cat for this to work
+    
     # Add the foreign key linking to a user instance
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
@@ -85,3 +101,4 @@ class Feeding(models.Model):
     # Define default order of feedings
     class Meta:
         ordering = ['-date']  # Newest feedings appear first
+        
